@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
+import Div from "../../Components/Div";
+import Overview from "./Overview";
 
 const Products = () => {
+
+    const [selectedTab, setSelectedTab] = useState('OVERVIEW');
 
     const navigate = useNavigate();
     const params = useParams();
@@ -49,15 +53,40 @@ const Products = () => {
     }
     
     return(
-        <div style={{margin: '30px'}}>
-            <div style={{border: 'solid 1px black', borderRadius: '20px', height: '30px', width: '200px', cursor:'pointer', textAlign: 'center'}} onClick={backToHomePage}>{`< Back To Home Page`}</div>
-            <div style={{marginLeft: '10vw', marginRight: '10vw', borderRadius: '8px', backgroundColor: '#f8f8f8'}}>
-                <img src={trendingCardData[params.id].imageSrc} alt={trendingCardData[params.id].productName} />
-                <p>{trendingCardData[params.id].productCategory}</p>
-                <h3>{trendingCardData[params.id].productName}</h3>
-                <b>{trendingCardData[params.id].price}</b>
-            </div>
-        </div>
+        <Div>
+            <Div classes='products-main-container' className='resize-screen'>
+                <Div 
+                    classes='back-to-home'
+                    className='resize-screen'
+                    onClick={backToHomePage}
+                >
+                    {`< Back To Home Page`}
+                </Div>
+                <Div 
+                    classes='products-container'
+                    className='resize-screen'
+                >
+                    <Div>
+                        <img style={{maxWidth: '100%'}} src={trendingCardData[params.id].imageSrc} alt={trendingCardData[params.id].productName} />
+                        <p>{trendingCardData[params.id].productCategory}</p>
+                        <h3>{trendingCardData[params.id].productName}</h3>
+                        <h3 style={{color: 'rgba(0,0,0,0.55)'}}>{trendingCardData[params.id].price}</h3>
+                    </Div>
+                    <Div classes='horizontal-seperator' />
+                    <Div style={{marginTop: '20px', marginBottom: '10px', width: '100%'}}>
+                        <Div classes='products-tabs' className='products-tabs'>
+                            <Div className="tab-buttons" classes = {selectedTab ==="OVERVIEW" ? 'product-info-button-active' : 'product-info-button-inactive'} onClick={() => setSelectedTab('OVERVIEW')}>OVERVIEW</Div>
+                            <Div className="tab-buttons" classes = {selectedTab ==="SPECIFICATIONS" ? 'product-info-button-active' : 'product-info-button-inactive'} onClick={() => setSelectedTab('SPECIFICATIONS')}>SPECIFICATIONS</Div>
+                            <Div className="tab-buttons" classes = {selectedTab ==="ACCESSORIES" ? 'product-info-button-active' : 'product-info-button-inactive'} onClick={() => setSelectedTab('ACCESSORIES')}>ACCESSORIES</Div>
+                            <Div className="tab-buttons" classes = {selectedTab ==="REVIEWS" ? 'product-info-button-active' : 'product-info-button-inactive'} onClick={() => setSelectedTab('REVIEWS')}>REVIEWS</Div>
+                        </Div>
+                        <Div style={{marginTop: '30px'}}>
+                            <Overview id={params.id} />
+                        </Div>
+                    </Div>
+                </Div> 
+            </Div>
+        </Div>
     )
 }
 
