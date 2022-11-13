@@ -7,8 +7,11 @@ import Form from 'react-bootstrap/Form';
 import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 const NavigationBar = () =>{
+
+  const navigate1 = useNavigate();
 
   const theme = createTheme({
     palette: {
@@ -18,10 +21,14 @@ const NavigationBar = () =>{
     },
   })
 
+  function goToCart(){
+    navigate1(`/Cart`);
+  }
+
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand href="#home">MyBrand</Navbar.Brand>
+        <Navbar.Brand href="/">MyBrand</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
@@ -53,8 +60,8 @@ const NavigationBar = () =>{
             <Button variant="outline-success">Search</Button>
             <Container>
               <ThemeProvider theme={theme}>
-              <PersonOutlineOutlinedIcon style={{marginRight: '10px'}} fontSize="large" color='primary' />
-              <ShoppingCartOutlinedIcon style={{marginLeft: '10px'}} fontSize="large" color='primary' />
+              <PersonOutlineOutlinedIcon style={{marginRight: '10px', cursor: 'pointer'}} fontSize="large" color='primary' />
+              <ShoppingCartOutlinedIcon onClick = {() => goToCart()} style={{marginLeft: '10px', cursor: 'pointer'}} fontSize="large" color='primary' />
               </ThemeProvider>
             </Container>
           </Form>
