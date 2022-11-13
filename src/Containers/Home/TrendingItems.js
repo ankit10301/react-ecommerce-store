@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useNavigate } from 'react-router-dom';
+import ItemContainerCard from "../../Components/ItemContainerCard";
 
 const TrendingItems = () =>{
 
@@ -69,17 +70,19 @@ const TrendingItems = () =>{
                 >
                     {
                         trendingCardData.map((element, index) => (
-                            <Card id={index} style={{ width: '18rem', height: '25rem', cursor:'pointer' }} onClick={() => productPage(index)}>
-                                <Card.Img variant="top" src={element.imageSrc} />
-                                <Card.Body>
-                                    <Card.Text>{element.productCategory}</Card.Text>
-                                    <Card.Title>{element.productName}</Card.Title>
-                                    <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
-                                        <p style={{margin: '0'}}>{element.price}</p>
-                                        <Button variant="primary" onClick={{}}>{`Add to Cart`}</Button>
-                                    </div>
-                                </Card.Body>
-                            </Card>
+                            <ItemContainerCard>
+                                <Card id={index} style={{ width: '18rem', height: '25rem', cursor:'pointer' }} onClick={() => productPage(index)}>
+                                    <Card.Img variant="top" src={element.imageSrc} />
+                                    <Card.Body>
+                                        <Card.Text>{element.productCategory}</Card.Text>
+                                        <Card.Title>{element.productName}</Card.Title>
+                                        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                                            <p style={{margin: '0'}}>{element.price}</p>
+                                            <Button variant="primary" onClick={{}}>{`Add to Cart`}</Button>
+                                        </div>
+                                    </Card.Body>
+                                </Card>
+                            </ItemContainerCard>
                         ))
                     }
                 </Box>

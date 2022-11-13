@@ -4,7 +4,7 @@
     --link-text-color: #1b4186;
     --discounted-price-color: #d5412d;
     --discount-reward-highlight: green;
-    --cart-items-background: #F5F5F5;
+    --cart-items-background: rgb(248, 248, 248);
     --box-shadow-color: rgba(128, 128, 128, 0.4);
 }
 
