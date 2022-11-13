@@ -93,6 +93,7 @@ const Div = styled.div`
         .products-tabs{
             width: 100%;
             overflow: auto;
+            padding-bottom: 10px;
             display: -webkit-box;
         }
         .tab-buttons{
