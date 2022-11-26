@@ -54,13 +54,14 @@ const TrendingItems = () =>{
 
     return(
         <div style={{backgroundColor: '#f8f8f8'}}>
-            <h2 style={{textAlign: 'center'}}>Trending Items</h2>
+            <h2 style={{textAlign: 'center'}}>Trending Items</h2>         
             <Grid container justifyContent="center" spacing={0}>
                 <Box
                     sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
                         alignItems: 'center',
+                        gap: '10px',
                         justifyContent: 'center',
                         '& > :not(style)': {
                         m: 1,
@@ -86,7 +87,7 @@ const TrendingItems = () =>{
                         ))
                     }
                 </Box>
-            </Grid>
+            </Grid>           
         </div>
     )
 }

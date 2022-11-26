@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from 'react-router-dom';
 import Div from "../../Components/Div";
 import Overview from "./Overview";
@@ -51,6 +51,10 @@ const Products = () => {
     const backToHomePage = () => {
         navigate('/');
     }
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    },[])
     
     return(
         <Div>

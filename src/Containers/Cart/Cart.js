@@ -1,35 +1,125 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import appleRewards from "../../DemoImages/appleRewards.png";
 import TrendingItems from "../Home/TrendingItems";
 import "./cartStyle.css";
 
 const Cart = props => {
 
+    const navigate = useNavigate();
     const [isCollipsibleOn, setIsCollipsibleOn] = useState(false);
+    const [originalPrice, setOriginalPrice] = useState(0);
+    const [subTotal, setSubTotal] = useState(0);
+    const [discount, setDiscount] = useState(0);
+    const [cartData, setCartData] = useState([]);
 
-    const cartData = [
-        {
-            imageSrc: 'https://chekromul.github.io/uikit-ecommerce-template/images/products/2/2-medium.jpg',
-            productCategory: 'Laptop',
-            productName: 'Apple MacBook Pro 15" Touch Bar MPTU2LL/A 256GB (Silver)',
-            price: '$1300',
-            originalPrice: '$1569'
-        },
-        {
-            imageSrc: 'https://chekromul.github.io/uikit-ecommerce-template/images/products/4/4-medium.jpg',
-            productCategory: 'Laptop',
-            productName: 'Apple MacBook Pro 15" Touch Bar MPTU2LL/A 256GB (Silver)',
-            price: '$1300',
-            originalPrice: '$1569'
-        },
-        {
-            imageSrc: 'https://chekromul.github.io/uikit-ecommerce-template/images/products/3/3-medium.jpg',
-            productCategory: 'Laptop',
-            productName: 'Apple MacBook Pro 15" Touch Bar MPTU2LL/A 256GB (Silver)',
-            price: '$1300',
-            originalPrice: '$1569'
+    useEffect(() => {
+        const data = [
+            {
+                pId: '0',
+                imageSrc: 'https://chekromul.github.io/uikit-ecommerce-template/images/products/2/2-medium.jpg',
+                productCategory: 'Laptop',
+                productName: 'Apple MacBook Pro 15" Touch Bar MPTU2LL/A 256GB (Silver)',
+                price: 1300,
+                pricePerItem: 1300,
+                originalPrice: 1569,
+                originalPricePerItem: 1569,
+                itemCount: 1
+            },
+            {
+                pId: '1',
+                imageSrc: 'https://chekromul.github.io/uikit-ecommerce-template/images/products/4/4-medium.jpg',
+                productCategory: 'Laptop',
+                productName: 'Apple MacBook Pro 15" Touch Bar MPTU2LL/A 256GB (Silver)',
+                price: 1300,
+                pricePerItem: 1300,
+                originalPrice: 1569,
+                originalPricePerItem: 1569,
+                itemCount: 1
+            },
+            {
+                pId: '2',
+                imageSrc: 'https://chekromul.github.io/uikit-ecommerce-template/images/products/3/3-medium.jpg',
+                productCategory: 'Laptop',
+                productName: 'Apple MacBook Pro 15" Touch Bar MPTU2LL/A 256GB (Silver)',
+                price: 1300,
+                pricePerItem: 1300,
+                originalPrice: 1569,
+                originalPricePerItem: 1569,
+                itemCount: 1
+            }
+        ];
+
+        setCartData(data);
+        window.scrollTo(0, 0);
+    }, [])
+
+    useEffect(() => {
+        let totalOriginalPrice = 0;
+        let totalPriceAfterDiscount = 0;
+        let discount = 0;
+
+        cartData.map(ele => {
+            totalOriginalPrice = totalOriginalPrice + ele.originalPrice;
+            totalPriceAfterDiscount = totalPriceAfterDiscount + ele.price;
+            return null;
+        })
+        discount = totalOriginalPrice - totalPriceAfterDiscount;
+        
+        setOriginalPrice(totalOriginalPrice);
+        setSubTotal(totalPriceAfterDiscount);
+        setDiscount(discount);
+    }, [cartData])
+
+    function navigateProduct(id){
+        navigate(`/products/${id}`)
+    }
+
+    function updateBillingInfo(){
+        let totalOriginalPrice = 0;
+        let totalPriceAfterDiscount = 0;
+        let discount = 0;
+
+        cartData.map(ele => {
+            totalOriginalPrice = totalOriginalPrice + ele.originalPrice;
+            totalPriceAfterDiscount = totalPriceAfterDiscount + ele.price;
+            return null;
+        })
+        discount = totalOriginalPrice - totalPriceAfterDiscount;
+        
+        setOriginalPrice(totalOriginalPrice);
+        setSubTotal(totalPriceAfterDiscount);
+        setDiscount(discount);
+    }
+
+    function handleItemCount (id, operator) {
+        if(cartData.length > 0){
+            let tempData = cartData;
+            const item = tempData.map(ele => ele.pId).indexOf(id);
+            const currentCount = cartData[item].itemCount;
+            if(operator === "+"){
+                tempData[item].itemCount = currentCount + 1;
+                tempData[item].price = tempData[item].price + tempData[item].pricePerItem;
+                tempData[item].originalPrice = tempData[item].originalPrice + tempData[item].originalPricePerItem;
+            } else if(currentCount > 1){
+                tempData[item].itemCount = currentCount - 1;
+                tempData[item].price = tempData[item].price - tempData[item].pricePerItem;
+                tempData[item].originalPrice = tempData[item].originalPrice - tempData[item].originalPricePerItem;
+            }
+            setCartData(tempData);
+            updateBillingInfo();
+        } else {
+            return;
         }
-    ];
+    }
+
+    function removefromCart(id){
+        let tempData = cartData;
+        const itemIndex = tempData.map(ele => ele.pId).indexOf(id);
+        delete tempData[itemIndex];
+        setCartData(tempData);
+        updateBillingInfo();
+    }
 
     return(
         <div>
@@ -40,12 +130,20 @@ const Cart = props => {
                 </div>
                 <div id="cart-details" className="cart-details">
                     <div className="cart-items">
-                        {cartData.map(element => (
-                            <div id="item_1" className="item-list">
-                            <div sclass="item-thumbnail-container">
+                        {cartData && cartData.map(element => (
+                            <div className="item-list">
+                            <div className="item-thumbnail-container">
                                 <img className="item-thumbnail" src={element.imageSrc} alt={element.productCategory} width="120px"/>
                                 <div className="quantity-container-mobile-view">
-                                    <button id="minus_button" className="items-quantity left-border">-</button><span id="item_count" className="quantity-count">1</span><button id="plus_button" className="items-quantity right-border">+</button>
+                                    <button
+                                        className="items-quantity left-border" 
+                                        onClick={(e) => handleItemCount(element.pId, "-")}
+                                    >-</button>
+                                    <span className="quantity-count">{element.itemCount}</span>
+                                    <button
+                                        className="items-quantity right-border" 
+                                        onClick={(e) => handleItemCount(element.pId, "+")}
+                                    >+</button>
                                 </div>
                             </div>
 
@@ -53,10 +151,10 @@ const Cart = props => {
                                 <div className="details-container">
                                     <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                         <div>
-                                            <a href="#home" className="item-name">{element.productName}</a>
+                                            <p onClick={() => navigateProduct(element.pId)} className="item-name">{element.productName}</p>
                                         </div>
                                         <div className="item-title-div">
-                                            <i id="remove_button" parentContainerId="item_1" className="fa fa-times remove-button" aria-hidden="true"></i>
+                                            <i onClick={() => removefromCart(element.pId)} className="fa fa-times remove-button" aria-hidden="true"></i>
                                         </div>
                                     </div>
                                     <div className="item-details"><strong>SKU</strong><span>4226249</span></div>
@@ -81,14 +179,20 @@ const Cart = props => {
                                     </div>
                                     <span className="discount-text">Additional 17% Off</span>
                                     <div className="quantity-container">
-                                        <button id="minus_button" className="items-quantity left-border">-</button>
-                                        <span id="item_count" className="quantity-count">1</span>
-                                        <button id="plus_button" className="items-quantity right-border">+</button>
+                                        <button
+                                            className="items-quantity left-border" 
+                                            onClick={(e) => handleItemCount(element.pId, "-")}
+                                        >-</button>
+                                        <span id="item_count" className="quantity-count">{element.itemCount}</span>
+                                        <button 
+                                            className="items-quantity right-border" 
+                                            onClick={(e) => handleItemCount(element.pId, "+")}
+                                        >+</button>
                                     </div>
                                 </div>
 
                                 <div className="utility-buttons">
-                                    <i id="remove_button" parentContainerId="item_1" className="fa fa-times remove-button" aria-hidden="true"></i>
+                                    <i onClick={() => removefromCart(element.pId)} className="fa fa-times remove-button" aria-hidden="true"></i>
                                 </div>
                                 </div>
                             </div>
@@ -98,16 +202,12 @@ const Cart = props => {
                     </div>
 
                     <div className="billing-info-container">
-                        <div className="offer-ribbon">
-                            <i className="fa fa-gift" aria-hidden="true"></i>
-                            <span>Early Black Friday Blowout Up to 80% OFF + Free shipping using code BLKFRI</span>
-                        </div>
                         <div className="price-breakup-div">
-                            <div className="price-breakup"><h6>Original Price</h6><span>$4707</span></div>
-                            <div className="price-breakup"><h6>You Save</h6><span>-$807</span></div>
+                            <div className="price-breakup"><h6>Original Price</h6><span>{`$${originalPrice}`}</span></div>
+                            <div className="price-breakup"><h6>You Save</h6><span>{`-$${discount}`}</span></div>
                             <div className="subtotal">
-                                <div className="price-breakup"><h5><strong>Subtotal</strong></h5><strong>$3900</strong></div>
-                                <div className="price-breakup"><h6>Shipping</h6><span>Calculated at Checkout</span></div>
+                                <div className="price-breakup"><h5><strong>Subtotal</strong></h5><strong>{`$${subTotal}`}</strong></div>
+                                <div className="price-breakup"><h6>Shipping</h6><span>Free</span></div>
                             </div>
                         </div>
                         <div className="p1-rewards">

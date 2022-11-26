@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import CarouselComponent from "./CarouselComponent";
 import TrendingItems from "./TrendingItems";
 
 const Home = () =>{
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [])
+
     return(
         <div>
             <CarouselComponent/>

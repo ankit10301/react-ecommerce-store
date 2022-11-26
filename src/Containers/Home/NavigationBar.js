@@ -26,7 +26,7 @@ const NavigationBar = () =>{
   }
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar sticky="top" bg="light" expand="lg">
       <Container>
         <Navbar.Brand href="/">MyBrand</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -46,11 +46,12 @@ const NavigationBar = () =>{
             </NavDropdown>
 
             <Nav.Link href="#home">BLOG</Nav.Link>
-            <Nav.Link href="#link">ABOUT</Nav.Link>
-            <Nav.Link href="#link">CONTACTS</Nav.Link>
+            <Nav.Link href="#about">ABOUT</Nav.Link>
+            <Nav.Link href="#contact">CONTACTS</Nav.Link>
             
           </Nav>
-          <Form className="d-flex">
+        </Navbar.Collapse>
+        <Form className="d-flex">
             <Form.Control
               type="search"
               placeholder="Search..."
@@ -65,7 +66,6 @@ const NavigationBar = () =>{
               </ThemeProvider>
             </Container>
           </Form>
-        </Navbar.Collapse>
       </Container>
     </Navbar>
   );

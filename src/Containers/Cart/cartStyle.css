@@ -101,7 +101,7 @@ a.cart-continue:hover{
     display: flex; 
     flex-direction: column; 
     align-items: center; 
-    justify-content: center;
+    justify-content: space-evenly;
 }
 .item-thumbnail{
     border-radius: 10px;
@@ -136,8 +136,9 @@ a.cart-continue:hover{
     text-decoration: none;
     font-size: larger;
     max-height: 25px;
+    cursor: pointer;
 }
-a.item-name:hover{
+p.item-name:hover{
     color: var(--primary-color);
 }
 .item-details{
@@ -211,7 +212,7 @@ a.item-name:hover{
     justify-content: center;
     align-self: center;
     cursor: pointer;
-    line-height: 28px;
+    line-height: 24px;
     color: var(--primary-color);
 }
 .left-border{
@@ -263,9 +264,6 @@ a.item-name:hover{
     background-color: var(--cart-items-background);
     color: black;
     border-radius: 10px;
-}
-.price-breakup-div{
-    margin-top: 20px;
 }
 .price-breakup{
     display: flex;
